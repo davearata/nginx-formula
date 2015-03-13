@@ -13,21 +13,6 @@ nginx_install:
     - name: {{ nginx.lookup.package }}
   {% endif %}
 
-{% if salt['grains.get']('os_family') == 'Debian' %}
-nginx_ppa_repo:
-  pkgrepo:
-    {%- if nginx.install_from_ppa %}
-    - managed
-    {%- else %}
-    - absent
-    {%- endif %}
-    - ppa: nginx/{{ nginx.ppa_version }}
-    - require_in:
-      - pkg: nginx_install
-    - watch_in:
-      - pkg: nginx_install
-{% endif %}
-
 {% if salt['grains.get']('os_family') == 'Suse' %}
 nginx_zypp_repo:
   pkgrepo:
